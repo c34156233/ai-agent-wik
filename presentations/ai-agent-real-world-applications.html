@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI AGENT 在現實的應用 — 產業落地與架構全景</title>
+  <!-- Mermaid.js for Diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      /* 靜謐水墨與和風大地色系 */
+      --washi-bg: #f8f7f4;
+      --washi-gradient: radial-gradient(circle at 65% 15%, #ffffff 0%, #f4f2ec 60%, #ece8df 100%);
+      --ink-black: #26292b;
+      --ink-charcoal: #3e4448;
+      --ink-muted: #79838b;
+      --ink-faint: #bcc2c8;
+      
+      /* 淡雅水彩點綴色：竹青、灰藍、淡黛、栗色 */
+      --wash-bamboo: #4a776a;
+      --wash-bamboo-light: rgba(74, 119, 106, 0.12);
+      --wash-indigo: #486581;
+      --wash-indigo-light: rgba(72, 101, 129, 0.12);
+      --wash-ochre: #9c754d;
+      --wash-ochre-light: rgba(156, 117, 77, 0.1);
+      --paper-card: rgba(255, 255, 255, 0.85);
+      --paper-border: rgba(38, 41, 43, 0.08);
+
+      /* 字體排印：襯線標題 + 純淨無襯線內文 */
+      --font-serif: "Songti TC", "Noto Serif TC", "Source Han Serif TC", "Yu Mincho", serif;
+      --font-sans: -apple-system, BlinkMacSystemFont, "PingFang TC", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--washi-gradient);
+      font-family: var(--font-sans);
+      color: var(--ink-black);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    /* 抽象淡雅水墨/水彩暈染裝飾 (背景散斑) */
+    .ink-wash-bg {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.45;
+    }
+
+    .wash-1 {
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, #dcebe6 0%, rgba(220, 235, 230, 0) 70%);
+      top: -100px;
+      right: -80px;
+    }
+
+    .wash-2 {
+      width: 520px;
+      height: 520px;
+      background: radial-gradient(circle, #e2eaf1 0%, rgba(226, 234, 241, 0) 70%);
+      bottom: -150px;
+      left: -120px;
+    }
+
+    /* 頂部極細進度條 */
+    #progress-bar {
+      height: 3px;
+      background: linear-gradient(90deg, var(--wash-bamboo), var(--wash-indigo));
+      width: 0%;
+      transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    /* 極簡頂部導航 */
+    header {
+      padding: 24px 64px 12px 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 50;
+      background: transparent;
+    }
+
+    .brand {
+      font-family: var(--font-serif);
+      font-weight: 600;
+      font-size: 1.05rem;
+      letter-spacing: 0.12em;
+      color: var(--ink-charcoal);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand .circle-mark {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--wash-bamboo);
+      display: inline-block;
+    }
+
+    .slide-counter {
+      color: var(--ink-muted);
+      font-size: 0.85rem;
+      letter-spacing: 0.15em;
+      font-variant-numeric: tabular-nums;
+      font-family: var(--font-sans);
+    }
+
+    /* 簡報舞台主容器 */
+    main#deck {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      padding: 24px 80px 80px 80px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(12px);
+      transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    /* 雜誌編排感排印 (Typography) */
+    .slide-header {
+      margin-bottom: 32px;
+      position: relative;
+    }
+
+    .slide-category {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--wash-bamboo);
+      letter-spacing: 0.2em;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .slide-category::after {
+      content: "";
+      display: inline-block;
+      width: 36px;
+      height: 1px;
+      background: var(--wash-bamboo);
+      opacity: 0.4;
+    }
+
+    h1.slide-title {
+      font-family: var(--font-serif);
+      font-size: 2.25rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--ink-black);
+      line-height: 1.35;
+    }
+
+    p.slide-subtitle {
+      color: var(--ink-muted);
+      font-size: 1rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    /* 雜誌格線系統與呼吸感卡片 */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      flex: 1;
+      align-items: stretch;
+    }
+
+    .zen-card {
+      background: var(--paper-card);
+      border: 1px solid var(--paper-border);
+      border-radius: 18px;
+      padding: 32px 28px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .zen-card:hover {
+      border-color: rgba(74, 119, 106, 0.25);
+      box-shadow: 0 10px 30px rgba(74, 119, 106, 0.06);
+      transform: translateY(-2px);
+    }
+
+    /* 水彩質感圖標容器 */
+    .watercolor-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .watercolor-icon svg {
+      width: 26px;
+      height: 26px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .icon-bamboo {
+      background: var(--wash-bamboo-light);
+      color: var(--wash-bamboo);
+    }
+
+    .icon-indigo {
+      background: var(--wash-indigo-light);
+      color: var(--wash-indigo);
+    }
+
+    .icon-ochre {
+      background: var(--wash-ochre-light);
+      color: var(--wash-ochre);
+    }
+
+    .card-num {
+      font-family: var(--font-serif);
+      font-size: 0.85rem;
+      color: var(--ink-faint);
+      margin-bottom: 6px;
+      letter-spacing: 0.1em;
+    }
+
+    .card-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--ink-black);
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+    }
+
+    .card-desc {
+      color: var(--ink-charcoal);
+      font-size: 0.95rem;
+      line-height: 1.85;
+      letter-spacing: 0.03em;
+      flex: 1;
+    }
+
+    .card-desc strong {
+      color: var(--ink-black);
+      font-weight: 600;
+    }
+
+    .card-list {
+      margin-top: 14px;
+      padding-left: 0;
+      list-style: none;
+    }
+
+    .card-list li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 10px;
+      color: var(--ink-charcoal);
+      font-size: 0.9rem;
+      line-height: 1.7;
+    }
+
+    .card-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--wash-bamboo);
+      opacity: 0.6;
+    }
+
+    /* 水彩點綴標籤 (Tags) */
+    .zen-tag-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .zen-tag {
+      background: rgba(38, 41, 43, 0.04);
+      color: var(--ink-charcoal);
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border-radius: 999px;
+      letter-spacing: 0.04em;
+      border: 1px solid rgba(38, 41, 43, 0.06);
+    }
+
+    /* 雅致和風表格 */
+    table.zen-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      background: var(--paper-card);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--paper-border);
+      margin-top: 8px;
+    }
+
+    table.zen-table th, table.zen-table td {
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 0.92rem;
+      letter-spacing: 0.03em;
+    }
+
+    table.zen-table th {
+      background: rgba(244, 242, 236, 0.8);
+      color: var(--ink-black);
+      font-family: var(--font-serif);
+      font-weight: 600;
+      border-bottom: 1px solid var(--paper-border);
+    }
+
+    table.zen-table td {
+      border-bottom: 1px solid rgba(38, 41, 43, 0.04);
+      color: var(--ink-charcoal);
+      line-height: 1.7;
+    }
+
+    table.zen-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    /* 圖表容器 */
+    .diagram-card {
+      background: var(--paper-card);
+      border: 1px solid var(--paper-border);
+      border-radius: 18px;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      min-height: 220px;
+    }
+
+    /* 封面特仕頁 (Cover Slide) */
+    .slide-lead {
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding-top: 0;
+    }
+
+    .cover-motif {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--wash-bamboo-light) 0%, rgba(74, 119, 106, 0) 70%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px auto;
+    }
+
+    .cover-motif svg {
+      width: 36px;
+      height: 36px;
+      color: var(--wash-bamboo);
+    }
+
+    .slide-lead h1 {
+      font-family: var(--font-serif);
+      font-size: 3.4rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: var(--ink-black);
+      line-height: 1.3;
+      margin-bottom: 20px;
+    }
+
+    .slide-lead p.subtitle {
+      font-size: 1.15rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.08em;
+      max-width: 680px;
+      line-height: 1.85;
+      margin: 0 auto 36px auto;
+    }
+
+    .cover-divider {
+      width: 48px;
+      height: 1px;
+      background: var(--ink-faint);
+      margin: 0 auto 28px auto;
+    }
+
+    .cover-meta {
+      display: flex;
+      gap: 24px;
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.08em;
+    }
+
+    /* 演講者講稿抽屜 */
+    #notes-drawer {
+      position: fixed;
+      bottom: 74px;
+      right: 48px;
+      width: 440px;
+      max-height: 280px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid rgba(74, 119, 106, 0.25);
+      border-radius: 16px;
+      padding: 22px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+      backdrop-filter: blur(20px);
+      z-index: 90;
+      display: none;
+      overflow-y: auto;
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: var(--ink-charcoal);
+      letter-spacing: 0.03em;
+    }
+
+    #notes-drawer h4 {
+      font-family: var(--font-serif);
+      font-size: 1rem;
+      color: var(--wash-bamboo);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* 底部控制欄 */
+    footer.controls {
+      padding: 18px 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: transparent;
+      z-index: 50;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    button.btn {
+      background: var(--paper-card);
+      border: 1px solid var(--paper-border);
+      color: var(--ink-charcoal);
+      padding: 8px 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      font-family: var(--font-sans);
+      letter-spacing: 0.05em;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    }
+
+    button.btn:hover {
+      background: #ffffff;
+      border-color: var(--wash-bamboo);
+      color: var(--wash-bamboo);
+      box-shadow: 0 4px 12px rgba(74, 119, 106, 0.1);
+    }
+
+    button.btn.primary {
+      background: var(--wash-bamboo);
+      color: #ffffff;
+      border: 1px solid var(--wash-bamboo);
+    }
+
+    button.btn.primary:hover {
+      background: #3c6459;
+      color: #ffffff;
+    }
+
+    .keyboard-hint {
+      color: var(--ink-muted);
+      font-size: 0.8rem;
+      letter-spacing: 0.05em;
+    }
+
+    kbd {
+      background: rgba(38, 41, 43, 0.05);
+      border: 1px solid rgba(38, 41, 43, 0.1);
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: monospace;
+      font-size: 0.75rem;
+      color: var(--ink-charcoal);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 水墨暈染氛圍背景 -->
+  <div class="ink-wash-bg wash-1"></div>
+  <div class="ink-wash-bg wash-2"></div>
+
+  <!-- 頂部進度條 -->
+  <div id="progress-bar"></div>
+
+  <!-- 頂部頁首 -->
+  <header>
+    <div class="brand">
+      <span class="circle-mark"></span>
+      <span>現實世界的智慧代理實踐</span>
+    </div>
+    <div class="slide-counter">
+      <span id="current-slide">1</span> <span style="opacity:0.3;">/</span> <span id="total-slides">11</span>
+    </div>
+  </header>
+
+  <!-- 簡報內容舞台 -->
+  <main id="deck">
+
+    <!-- Slide 1: 封面 -->
+    <section class="slide slide-lead active" data-notes="各位好。今天這份簡報將帶領大家回歸最真實的實踐視角，深入探討『智慧代理在現實世界的落地應用』。我們將跳脫繁複的理論堆疊，以洗鍊清晰的視角，剖析它如何在程式開發、跨系統流程、深層研究以及組織協同中，重塑人機協作的新常態。">
+      <div class="cover-motif">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 6v6l4 2"></path>
+        </svg>
+      </div>
+      <h1>智慧代理在現實的應用</h1>
+      <p class="subtitle">從語言模型生成到自主行動閉環：軟體開發、流程整合、深度研究與專業領域實踐全景</p>
+      <div class="cover-divider"></div>
+      <div class="cover-meta">
+        <span>知識庫編譯成果</span>
+        <span>•</span>
+        <span>自主運算系統架構</span>
+      </div>
+    </section>
+
+    <!-- Slide 2: 演進光譜 -->
+    <section class="slide" data-notes="首先綜覽人工智慧與人協作的演進軌跡。從對話機器人的單向問答，到副駕駛的行內協同，直到今日的自主代理。核心的轉變在於：人類從必須步步引導的執行者，轉變為定義目標與審核成果的引導者。">
+      <div class="slide-header">
+        <div class="slide-category">典範轉移</div>
+        <h1 class="slide-title">人機協作演進：從單向應答到自主閉環</h1>
+        <p class="slide-subtitle">技術介入工作的深度，正從淺層的文字建議走向端到端的任務交付</p>
+      </div>
+      <div class="grid-3">
+        <div class="zen-card">
+          <div class="watercolor-icon icon-ochre">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          </div>
+          <div class="card-num">第一階段</div>
+          <div class="card-title">對話生成式助理</div>
+          <div class="card-desc">
+            <strong>文字生成與被動應答</strong>
+            <ul class="card-list">
+              <li>單次輸入提示詞生成文字片段</li>
+              <li>無法直接碰觸外部資料庫或操作軟體</li>
+              <li>人類承擔全數的執行與驗證責任</li>
+            </ul>
+          </div>
+          <div class="zen-tag-group">
+            <span class="zen-tag">單向傳遞</span>
+            <span class="zen-tag">語言推論</span>
+          </div>
+        </div>
+
+        <div class="zen-card">
+          <div class="watercolor-icon icon-indigo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><polyline points="16 11 18 13 22 9"></polyline></svg>
+          </div>
+          <div class="card-num">第二階段</div>
+          <div class="card-title">人機協同副駕駛</div>
+          <div class="card-desc">
+            <strong>工作介面內的輔助夥伴</strong>
+            <ul class="card-list">
+              <li>嵌入編輯器或辦公軟體提供局部建議</li>
+              <li>加速程式碼編寫與草稿擬定</li>
+              <li>仍需人類頻繁手動介入與分步確認</li>
+            </ul>
+          </div>
+          <div class="zen-tag-group">
+            <span class="zen-tag">介面共生</span>
+            <span class="zen-tag">效率倍增</span>
+          </div>
+        </div>
+
+        <div class="zen-card" style="border-color: rgba(74, 119, 106, 0.35); background: rgba(255, 255, 255, 0.95);">
+          <div class="watercolor-icon icon-bamboo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          </div>
+          <div class="card-num" style="color:var(--wash-bamboo);">第三階段・當今實踐</div>
+          <div class="card-title">自主智慧代理</div>
+          <div class="card-desc">
+            <strong>自主規劃與端到端任務閉環</strong>
+            <ul class="card-list">
+              <li>理解整體目標，自動分解為多個子計畫</li>
+              <li>主動調用工具並操作虛擬沙盒環境</li>
+              <li>遇到測試失敗自動反思、重試與修正</li>
+            </ul>
+          </div>
+          <div class="zen-tag-group">
+            <span class="zen-tag" style="background:var(--wash-bamboo-light); color:var(--wash-bamboo);">端到端閉環</span>
+            <span class="zen-tag">自我修正</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 3: 軟體工程實踐 -->
+    <section class="slide" data-notes="在軟體工程中，代理的應用已走向成熟。過去只能幫忙寫一個演算法，現在具備完整沙盒環境的編程代理，能夠自動檢索大型代碼庫、重現複雜的 Bug，在測試驗證下逐步修復，並產生乾淨的 Git 補丁提交審查。">
+      <div class="slide-header">
+        <div class="slide-category">實踐領域一</div>
+        <h1 class="slide-title">軟體工程：自主探索與程式修復閉環</h1>
+        <p class="slide-subtitle">跨越單行程式碼生成，實現「探索、定位、修改與自動測試」之完整流程</p>
+      </div>
+      <div class="grid-2">
+        <div class="zen-card">
+          <div class="card-title">探索與除錯機制</div>
+          <div class="card-desc">
+            現代編程代理打破了上下文窗口的限制，透過工具主動探索真實環境：
+            <ul class="card-list">
+              <li><strong>代碼拓撲檢索</strong>：利用語法樹與全域檢索，跨數百個檔案追蹤錯誤呼叫鏈。</li>
+              <li><strong>沙盒隔離執行</strong>：在容器中自主建置依賴環境並執行測試腳本。</li>
+              <li><strong>測試驅動的自我修復</strong>：以單元測試失敗的錯誤日誌作為反思依據，反覆修訂直到完全通過。</li>
+            </ul>
+          </div>
+          <div class="zen-tag-group">
+            <span class="zen-tag">SWE-bench 評測標準</span>
+            <span class="zen-tag">測試驅動開發</span>
+          </div>
+        </div>
+
+        <div class="zen-card">
+          <div class="card-title">現實商業落地實例</div>
+          <div class="card-desc">
+            業界正在大規模應用的代表性模式：
+            <ul class="card-list">
+              <li><strong>智慧編輯器代理</strong>：開發者僅需說明需求，代理便跨模組重構程式並自動修正編譯錯誤。</li>
+              <li><strong>自主修復工單</strong>：自動讀取專案管理平台上的缺陷報告，在獨立分支產出修正補丁並發起拉取請求。</li>
+              <li><strong>老舊系統自動化升級</strong>：安全地在龐大程式庫中執行版本遷移與廢棄介面重構。</li>
+            </ul>
+          </div>
+          <div class="zen-tag-group">
+            <span class="zen-tag">開發者體驗重構</span>
+            <span class="zen-tag">補丁自動生成</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 4: 企業流程自動化 -->
+    <section class="slide" data-notes="企業內部存在大量跨越 ERP、CRM、郵件與試算表的枯燥流程。傳統自動化工具極易因為介面改版而失效；而融入語義推理的代理，能靈活理解業務語意，真正像一位數位員工一樣協同處理採購、入職與商機更新。">
+      <div class="slide-header">
+        <div class="slide-category">實踐領域二</div>
+        <h1 class="slide-title">企業流程自動化：跨系統的「數位員工」</h1>
+        <p class="slide-subtitle">以語義理解貫通資訊孤島，化解傳統腳本容易因介面變動而崩潰的困境</p>
+      </div>
+      <div class="grid-3">
+        <div class="zen-card">
+          <div class="watercolor-icon icon-bamboo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          </div>
+          <div class="card-title">帳務與單據核對</div>
+          <div class="card-desc">
+            <ul class="card-list">
+              <li>解析跨格式之採購訂單與對帳單據</li>
+              <li>自動比對庫存變動與合約約定金額</li>
+              <li>偵測差異時主動發送郵件與廠商協商</li>
+              <li>完成核可後自動過帳入會計系統</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="zen-card">
+          <div class="watercolor-icon icon-indigo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <div class="card-title">人事入職與權限開通</div>
+          <div class="card-desc">
+            <ul class="card-list">
+              <li>讀取錄取資料建立員工核心檔案</li>
+              <li>依照部門與職能配置企業通訊與雲端權限</li>
+              <li>協調內部設備庫存並自動送出借用審批</li>
+              <li>自動排定首週導師晤談與訓練日程</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="zen-card">
+          <div class="watercolor-icon icon-ochre">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          </div>
+          <div class="card-title">客戶關係動態維護</div>
+          <div class="card-desc">
+            <ul class="card-list">
+              <li>彙整跨通訊管道之商談要點與承諾清單</li>
+              <li>自動推進客戶管理系統中的商機進度</li>
+              <li>在合約到期或競品異動時主動示警</li>
+              <li>依照歷史互動紀錄產出客製協議草稿</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 5: 深度研究與情報合成 -->
+    <section class="slide" data-notes="研究分析的核心在於多跳探索與事實交叉檢驗。一般檢索往往止步於單次關鍵字查詢；而深度研究代理能自動分解命題、過濾噪音，並將新發現融會進持續演進的知識庫中，讓每次的研究都不再重頭來過。">
+      <div class="slide-header">
+        <div class="slide-category">實踐領域三</div>
+        <h1 class="slide-title">深度情報分析：多跳檢索與知識複利</h1>
+        <p class="slide-subtitle">超越單次問答檢索，實現自主命題分解、來源交叉查核與長期知識沉澱</p>
+      </div>
+      <div class="grid-2">
+        <div class="zen-card">
+          <div class="card-title">自主多跳探索流程</div>
+          <div class="card-desc">
+            研究代理展現了如同高階分析師的嚴謹工作模式：
+            <ul class="card-list">
+              <li><strong>課題層層分解</strong>：將模糊的宏觀命題拆分為技術、市場、法規等多維子任務。</li>
+              <li><strong>動態修正檢索策略</strong>：根據初步發現的新專案或實體，持續發起延伸查詢。</li>
+              <li><strong>衝突查核與篩選</strong>：主動比對不同來源的數據矛盾，剔除具商業偏差的宣傳內容。</li>
+            </ul>
+          </div>
+          <div class="zen-tag-group">
+            <span class="zen-tag">多步驟推論</span>
+            <span class="zen-tag">交叉驗證</span>
+          </div>
+        </div>
+
+        <div class="zen-card">
+          <div class="card-title">持續成長的知識庫（LLM Wiki）</div>
+          <div class="card-desc">
+            傳統檢索每次都由零開始，而代理維護的知識庫具備累積效應：
+            <ul class="card-list">
+              <li><strong>全域雙向關聯</strong>：新文獻攝取時，自動梳理並反向連結既有概念網絡。</li>
+              <li><strong>技術演進追蹤</strong>：標註過去技術限制何時被新架構攻克，隨時維持論述新鮮度。</li>
+              <li><strong>永續資產轉化</strong>：將每次探索沉澱為結構嚴謹、隨時可被複用的企業資產。</li>
+            </ul>
+          </div>
+          <div class="zen-tag-group">
+            <span class="zen-tag">雙向鏈接網絡</span>
+            <span class="zen-tag">沉澱與複利</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 6: 客戶支援與動態服務 -->
+    <section class="slide" data-notes="客戶服務最怕機器人只會說抱歉或給連結。代理驅動的客服，核心特質在於具備授權工具的調用能力——它能直接查詢帳戶狀態、處理合規範圍內的退款或改單，真正替顧客省下寶貴時間。">
+      <div class="slide-header">
+        <div class="slide-category">實踐領域四</div>
+        <h1 class="slide-title">客戶支援變革：從罐頭說明到「即時解決」</h1>
+        <p class="slide-subtitle">賦予代理合規的操作權限，讓服務從被動引導邁向真正解決問題</p>
+      </div>
+      <div class="grid-2">
+        <div class="zen-card" style="background: rgba(244, 242, 236, 0.6);">
+          <div class="card-title" style="color: var(--ink-muted);">傳統對話機器人的局限</div>
+          <div class="card-desc">
+            <ul class="card-list">
+              <li>僅能針對特定關鍵字比對預設問答庫</li>
+              <li>缺乏與後台資料庫或外部服務的互動能力</li>
+              <li>只能提供網頁連結，顧客仍需自行手動摸索</li>
+              <li>轉接人工後無法無縫延續對話脈絡</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="zen-card" style="border-color: rgba(74, 119, 106, 0.35);">
+          <div class="card-title" style="color: var(--wash-bamboo);">代理型服務系統的實踐突破</div>
+          <div class="card-desc">
+            <ul class="card-list">
+              <li><strong>具備即時系統操作權</strong>：能調用介面查詢物流軌跡、執行延期或變更地址。</li>
+              <li><strong>合規自動退款授權</strong>：在規則設定的限額內，直接完成帳單調整並發送憑據。</li>
+              <li><strong>動態情境判斷與無縫轉接</strong>：遇到超出權限之複雜爭議，打包完整摘要交由專人覆核。</li>
+            </ul>
+          </div>
+          <div class="zen-tag-group">
+            <span class="zen-tag" style="background:var(--wash-bamboo-light); color:var(--wash-bamboo);">即時行動能力</span>
+            <span class="zen-tag">安全分級授權</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 7: 垂直高價值領域 (金融/法律/醫療) -->
+    <section class="slide" data-notes="在金融、法律與生醫醫療這類專業門檻極高的領域，代理並非為了取代資深專家，而是充當一位 24 小時專注的分析副手。它能幫律師預先標註 500 頁合約的潛在風險，幫醫師比對罕見病歷與最新臨床試驗，讓專業人才聚焦於最關鍵的判斷。">
+      <div class="slide-header">
+        <div class="slide-category">實踐領域五</div>
+        <h1 class="slide-title">專業垂直領域：金融、法律與醫療的智慧外腦</h1>
+        <p class="slide-subtitle">在容錯門檻嚴苛的專業殿堂中，扮演高階專業人士的強力協同者</p>
+      </div>
+      <div class="grid-3">
+        <div class="zen-card">
+          <div class="watercolor-icon icon-bamboo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline><polyline points="17 6 23 6 23 12"></polyline></svg>
+          </div>
+          <div class="card-title">金融與風險分析</div>
+          <div class="card-desc">
+            <ul class="card-list">
+              <li>秒級拆解上市公司繁複之公開財報</li>
+              <li>即時追蹤跨帳戶異常資金流動與風險預警</li>
+              <li>自動化整理盡職調查（DD）初階分析簡報</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="zen-card">
+          <div class="watercolor-icon icon-indigo">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          </div>
+          <div class="card-title">法律與合約審查</div>
+          <div class="card-desc">
+            <ul class="card-list">
+              <li>自動標註冗長併購合約中對客戶不利之條款</li>
+              <li>跨國比對隱私法規與合規遵循邊界</li>
+              <li>智慧檢索同類型訴訟之判例與裁判要旨</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="zen-card">
+          <div class="watercolor-icon icon-ochre">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+          </div>
+          <div class="card-title">生醫與臨床協同</div>
+          <div class="card-desc">
+            <ul class="card-list">
+              <li>精準匹配重症病歷與全球最新臨床試驗條件</li>
+              <li>處方箋開立時之藥物交互禁忌主動示警</li>
+              <li>快速提煉全球權威醫學期刊之最新診療指引</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 8: 組織級多 Agent 團隊協同 -->
+    <section class="slide" data-notes="當專案複雜度上升，單一代理往往難以負荷。業界目前的主流架構是多代理人分工協同。如同一個微型的敏捷軟體團隊，各自承擔需求、架構、編程與測試職責，彼此透過規範的訊息機制交接與審查。">
+      <div class="slide-header">
+        <div class="slide-category">前沿架構</div>
+        <h1 class="slide-title">組織級多代理協同：虛擬團隊的職責解耦</h1>
+        <p class="slide-subtitle">模擬現代專業團隊分工，透過彼此互相審查顯著提升超大規模專案之交付品質</p>
+      </div>
+      <div class="diagram-card">
+        <pre class="mermaid">
+flowchart LR
+    User([專案負責人]) --> PM[需求代理\n規格拆解與驗收標準]
+    PM --> Arch[架構代理\n模組劃分與介面設計]
+    Arch --> Dev[研發代理\n程式碼撰寫與建置]
+    Dev --> QA[品管代理\n自動化驗證與測試]
+    QA -- 測試未過 (退回修正) --> Dev
+    QA -- 全數通過 --> Release([交付成果])
+        </pre>
+      </div>
+      <div class="grid-2" style="margin-top: 24px;">
+        <div class="zen-card">
+          <div class="card-title">架構核心效益</div>
+          <div class="card-desc">
+            <ul class="card-list">
+              <li><strong>上下文清晰隔離</strong>：各代理僅攜帶專屬職能知識，避免雜訊干擾專注度。</li>
+              <li><strong>同儕客觀審查</strong>：品管代理針對產出維持獨立檢核，有效防範缺陷外流。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="zen-card">
+          <div class="card-title">主流實作典範</div>
+          <div class="card-desc">
+            <ul class="card-list">
+              <li><strong>狀態圖編排框架</strong>：明確定義節點流轉邏輯，支援具備自我修正的循環迴路。</li>
+              <li><strong>角色扮演協作</strong>：定義特定專長角色與通訊協定，實現自然分工交接。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 9: 工業級安全落地架構 -->
+    <section class="slide" data-notes="企業要敢於將代理引入生產環境，最關鍵的不是模型多聰明，而是安全護欄是否嚴密。我們必須落實最小權限、環境沙盒隔離，並在關鍵節點保留人類審批的閘門。">
+      <div class="slide-header">
+        <div class="slide-category">安全與治理</div>
+        <h1 class="slide-title">生產級安全防護：護欄、沙盒與人機審批</h1>
+        <p class="slide-subtitle">在賦予自主行動力的同時，構築堅固的約束與防護邊界</p>
+      </div>
+      <div class="grid-2">
+        <div class="zen-card">
+          <div class="card-title">四大核心安全防線</div>
+          <div class="card-desc">
+            <ul class="card-list">
+              <li><strong>權限最小化原則</strong>：查詢類工具全面開放，而寫入、刪除、轉帳等操作實施獨立隔離控管。</li>
+              <li><strong>沙盒隔離環境</strong>：終端指令強制於容器或隔離虛擬環境中運行，杜絕碰觸核心系統。</li>
+              <li><strong>關鍵人機審批閘門</strong>：重大財務決策或不可逆更動時，流程自動暫停等待人類授權。</li>
+              <li><strong>呼叫計數與熔斷機制</strong>：設定單次任務之調用上限，防範程式碼陷入無窮重複循環。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="zen-card">
+          <div class="card-title">系統架構層級劃分</div>
+          <div class="card-desc">
+            <table class="zen-table">
+              <tr>
+                <th>系統維度</th>
+                <th>實務規劃方案</th>
+              </tr>
+              <tr>
+                <td><strong>控制調度</strong></td>
+                <td>狀態機與有向循環圖（State Machine & Loops）</td>
+              </tr>
+              <tr>
+                <td><strong>工具連動</strong></td>
+                <td>標準化介面（Model Context Protocol / OpenAPI）</td>
+              </tr>
+              <tr>
+                <td><strong>安全邊界</strong></td>
+                <td>敏感資訊遮蔽與企業角色的存取控制（RBAC）</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 10: 現實落地的四大工程挑戰 -->
+    <section class="slide" data-notes="從 Demo 走向真實商業落地，團隊必然會遭遇四大工程瓶頸：死循環、上下文爆發、延遲成本與評測方法。清楚理解這些挑戰並落實對應解法，是專案成功的基石。">
+      <div class="slide-header">
+        <div class="slide-category">實務工程學</div>
+        <h1 class="slide-title">邁向生產級的四大挑戰與破局實務</h1>
+        <p class="slide-subtitle">跨越概念驗證與工業級可用之間的實務鴻溝</p>
+      </div>
+      <div class="grid-2">
+        <div class="zen-card">
+          <div class="card-title">死循環與盲目重試</div>
+          <div class="card-desc">
+            <strong>現象</strong>：工具持續回傳錯誤碼，模型以相同參數反覆請求。<br>
+            <strong>對策</strong>：
+            <ul class="card-list">
+              <li>導入強制反思節點，要求模型條列前次失敗原因方可再嘗試。</li>
+              <li>結合指數退避機制，超出預設上限立即暫停並通知人工接手。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="zen-card">
+          <div class="card-title">上下文膨脹與注意力發散</div>
+          <div class="card-desc">
+            <strong>現象</strong>：大量除錯日誌或網頁內容瞬間填滿視窗，造成焦點遺失。<br>
+            <strong>對策</strong>：
+            <ul class="card-list">
+              <li>實施分頁截斷讀取，避免單次傾倒巨量原始資料。</li>
+              <li>指派輕量模型預先過濾精煉輸出，僅將核心洞察餵回主決策模組。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="zen-card">
+          <div class="card-title">端到端延遲與運算成本</div>
+          <div class="card-desc">
+            <strong>現象</strong>：多輪複雜呼叫累積過長等待時間與高昂費用。<br>
+            <strong>對策</strong>：
+            <ul class="card-list">
+              <li>落實模型動態分流：日常步驟採用輕快模型，關鍵驗證才動用旗艦核心。</li>
+              <li>廣泛啟用快取技術，避免重複計算已驗證的事實。</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="zen-card">
+          <div class="card-title">評測方法與真實環境脫節</div>
+          <div class="card-desc">
+            <strong>現象</strong>：標準考題表現優異，進入實務終端卻無法完成基本操作。<br>
+            <strong>對策</strong>：
+            <ul class="card-list">
+              <li>捨棄靜態問答評判，建立動態端到端沙盒測試流程。</li>
+              <li>以真實任務達成率與單元測試通過率作為唯一的交付驗收依據。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Slide 11: 結語與展望 -->
+    <section class="slide slide-lead" data-notes="最後總結：智慧代理的興起，並不是要取代人類的判斷，而是讓我們從重複繁重的機械作業中解放出來。先以嚴謹的工作流界定邊界，再在需要彈性的地方賦予自主修正能力，人機協作便能走得既深遠又穩固。非常感謝大家。">
+      <div class="cover-motif">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+        </svg>
+      </div>
+      <h1>走向人機共生的實踐新局</h1>
+      <p class="subtitle" style="text-align: left; max-width: 720px; margin: 0 auto 32px auto;">
+        一、<strong>不盲目追求極致自主</strong>：以確定性工作流構築骨幹，在關鍵變化處引入代理的自主彈性。<br>
+        二、<strong>以工具與環境為基石</strong>：透過標準化協定連結真實世界，使思考真正轉化為行動成果。<br>
+        三、<strong>堅守安全與審批護欄</strong>：落實權限邊界、環境沙盒與適時的人機覆核，讓創新安全落地。<br>
+        四、<strong>善用知識沉澱機制</strong>：建構持續進化的企業知識庫，讓每次探索的成果化為長期的智慧複利。
+      </p>
+      <div class="cover-divider"></div>
+      <div class="cover-meta">
+        <span>感謝聆聽</span>
+        <span>•</span>
+        <span>按 [N] 鍵開啟或隱藏演講講稿</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 演講者講稿抽屜 -->
+  <div id="notes-drawer">
+    <h4>
+      <span>演講者講稿指引</span>
+      <button onclick="toggleNotes()" style="background:none; border:none; color:var(--ink-muted); cursor:pointer; font-size:1.1rem;">✕</button>
+    </h4>
+    <div id="notes-content">載入中...</div>
+  </div>
+
+  <!-- 底部極簡控制欄 -->
+  <footer class="controls">
+    <div class="btn-group">
+      <button class="btn" onclick="prevSlide()">◀ 上一頁</button>
+      <button class="btn primary" onclick="nextSlide()">下一頁 ▶</button>
+      <button class="btn" onclick="toggleNotes()">講稿 (N)</button>
+      <button class="btn" onclick="toggleFullscreen()">全螢幕 (F)</button>
+    </div>
+    <div class="keyboard-hint">
+      方向鍵 <kbd>←</kbd> <kbd>→</kbd> 換頁，按 <kbd>N</kbd> 切換講稿，按 <kbd>F</kbd> 全螢幕
+    </div>
+  </footer>
+
+  <script>
+    // 初始化 Mermaid 圖表
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'base',
+      themeVariables: {
+        darkMode: false,
+        background: '#ffffff',
+        primaryColor: '#e9f1ee',
+        primaryBorderColor: '#4a776a',
+        primaryTextColor: '#26292b',
+        lineColor: '#79838b',
+        secondaryColor: '#edf2f7',
+        tertiaryColor: '#f7f6f2',
+        fontSize: '13px',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "PingFang TC", sans-serif'
+      }
+    });
+
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    let currentIndex = 0;
+
+    const currentSlideEl = document.getElementById('current-slide');
+    const totalSlidesEl = document.getElementById('total-slides');
+    const progressBar = document.getElementById('progress-bar');
+    const notesDrawer = document.getElementById('notes-drawer');
+    const notesContent = document.getElementById('notes-content');
+
+    totalSlidesEl.textContent = totalSlides;
+
+    function updateSlide(index) {
+      if (index < 0) index = 0;
+      if (index >= totalSlides) index = totalSlides - 1;
+      currentIndex = index;
+
+      slides.forEach((slide, idx) => {
+        slide.classList.toggle('active', idx === currentIndex);
+      });
+
+      currentSlideEl.textContent = currentIndex + 1;
+      progressBar.style.width = `${((currentIndex + 1) / totalSlides) * 100}%`;
+
+      // 更新演講講稿內容
+      const activeSlide = slides[currentIndex];
+      const notes = activeSlide.getAttribute('data-notes') || '本頁無特定演講備忘稿。';
+      notesContent.textContent = notes;
+    }
+
+    function nextSlide() {
+      if (currentIndex < totalSlides - 1) {
+        updateSlide(currentIndex + 1);
+      }
+    }
+
+    function prevSlide() {
+      if (currentIndex > 0) {
+        updateSlide(currentIndex - 1);
+      }
+    }
+
+    function toggleNotes() {
+      notesDrawer.style.display = (notesDrawer.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+          alert(`全螢幕切換失敗: ${err.message}`);
+        });
+      } else {
+        if (document.exitFullscreen) {
+          document.exitFullscreen();
+        }
+      }
+    }
+
+    // 鍵盤導航
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        toggleFullscreen();
+      } else if (e.key === 'n' || e.key === 'N') {
+        e.preventDefault();
+        toggleNotes();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        updateSlide(0);
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        updateSlide(totalSlides - 1);
+      }
+    });
+
+    // 觸控手勢支援
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    });
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      if (touchStartX - touchEndX > 50) {
+        nextSlide();
+      } else if (touchEndX - touchStartX > 50) {
+        prevSlide();
+      }
+    });
+
+    // 啟動首頁
+    updateSlide(0);
+  </script>
+</body>
+</html>

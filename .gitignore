@@ -1,0 +1,17 @@
+# Windows thumbnail cache & desktop.ini
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Temporary & scratch files
+*.tmp
+*.bak
+*.swp
+*~
+
+# IDE & Editor caches
+.vscode/
+.idea/
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/cache/
