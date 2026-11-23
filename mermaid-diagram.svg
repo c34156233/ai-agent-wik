@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1256.40725 1525.6959999999997" width="1256.40725" height="1525.6959999999997" style="--bg:#18181B;--fg:#F4F4F5;--line:#71717A;--muted:#A1A1AA;--surface:#27272A;--border:#3F3F46;background:var(--bg)">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap');
+  text { font-family: 'Inter', system-ui, sans-serif; }
+  svg {
+    /* Derived from --bg and --fg (overridable via --line, --accent, etc.) */
+    --_text:          var(--fg);
+    --_text-sec:      var(--muted, color-mix(in srgb, var(--fg) 60%, var(--bg)));
+    --_text-muted:    var(--muted, color-mix(in srgb, var(--fg) 40%, var(--bg)));
+    --_text-faint:    color-mix(in srgb, var(--fg) 25%, var(--bg));
+    --_line:          var(--line, color-mix(in srgb, var(--fg) 50%, var(--bg)));
+    --_arrow:         var(--accent, color-mix(in srgb, var(--fg) 85%, var(--bg)));
+    --_node-fill:     var(--surface, color-mix(in srgb, var(--fg) 3%, var(--bg)));
+    --_node-stroke:   var(--border, color-mix(in srgb, var(--fg) 20%, var(--bg)));
+    --_group-fill:    var(--bg);
+    --_group-hdr:     color-mix(in srgb, var(--fg) 5%, var(--bg));
+    --_inner-stroke:  color-mix(in srgb, var(--fg) 12%, var(--bg));
+    --_key-badge:     color-mix(in srgb, var(--fg) 10%, var(--bg));
+  }
+</style>
+<defs>
+  <marker id="arrowhead" markerWidth="8" markerHeight="5" refX="7" refY="2.5" orient="auto">
+    <polygon points="0 0, 8 2.5, 0 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+  <marker id="arrowhead-start" markerWidth="8" markerHeight="5" refX="1" refY="2.5" orient="auto-start-reverse">
+    <polygon points="8 0, 0 2.5, 8 5" fill="var(--_arrow)" stroke="var(--_arrow)" stroke-width="0.75" stroke-linejoin="round" />
+  </marker>
+</defs>
+<polyline class="edge" data-from="Start" data-to="Node1" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="668.0332500000001,666.094 668.03325,714.094" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Node1" data-to="Node2" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="668.03325,767.894 668.03325,791.894 1008.6866666666667,791.894 1008.6866666666667,803.894" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Node2" data-to="CheckA" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="1096.1006666666667,803.894 1096.1006666666667,791.894 1204.51025,791.894 1204.51025,369.432 1162.4992499999998,369.432 1162.4992499999998,201.72400000000013" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CheckA" data-to="Node2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="未通過 (邏輯跳躍/過於冗長)" points="1108.59125,255.632 1108.59125,369.432 1119.48825,369.432 1119.48825,779.894 1066.9626666666668,779.894 1066.9626666666668,803.894" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CheckA" data-to="Node3" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="通過自檢" points="1054.68325,201.72400000000013 1054.68325,267.632 920.04275,267.632 920.0427500000001,347.932" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Node3" data-to="CheckB" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="920.0427500000001,401.732 920.0427500000001,440.472" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CheckB" data-to="Node2" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="駁回 / 要求修改 (帶回使用者意見)" points="959.6864166666667,638.6903333333333 959.6864166666667,723.594 984.8777499999999,723.594 984.8777499999999,779.894 1037.8246666666666,779.894 1037.8246666666666,803.894" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CheckB" data-to="Node4" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="核准通過" points="880.3990833333334,638.6903333333332 880.3990833333334,735.594 855.20775,735.594 855.20775,779.894 599.2447500000001,779.894 599.2447500000001,879.7639999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Node4" data-to="CheckC" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="520.3243333333335,933.5639999999999 520.3243333333335,1098.1526666666664" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CheckC" data-to="Node4" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="未通過 (字數過載/缺乏視覺焦點)" points="616.9016666666668,1098.1526666666664 616.9016666666668,1037.8639999999998 618.8243333333335,1037.8639999999998 618.8243333333335,969.5639999999999 583.4606666666668,969.5639999999999 583.4606666666668,933.5639999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CheckC" data-to="Node5" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="通過檢核" points="568.613,1339.5959999999998 568.613,1419.8959999999997 325.3541000000001,1419.8959999999997 325.3541000000001,1431.8959999999997" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Node5" data-to="CheckD" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="239.80930000000006,1431.8959999999997 239.80930000000006,1407.8959999999997 180.23200000000006,1407.8959999999997 180.23200000000006,521.012 246.0893000000001,521.012 246.0893000000001,287.42080000000004" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CheckD" data-to="Node5" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="渲染錯誤 / Mermaid 報錯" points="191.10690000000008,232.4384 191.10690000000008,509.012 105.5,509.012 105.5,1419.8959999999997 197.0369000000001,1419.8959999999997 197.0369000000001,1431.8959999999997" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CheckD" data-to="Node4" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="結構損毀 / 邏輯丟失 (回退較大範圍)" points="356.05410000000006,232.43839999999997 356.05410000000006,350.912 551.9547500000001,350.912 551.9547500000001,867.7639999999999 551.8925000000002,867.7639999999999 551.8925000000002,879.7639999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CheckD" data-to="Node6" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="通過技術自檢" points="301.0717000000001,287.42079999999993 301.0717000000001,350.912 349.3112500000001,350.912 349.3112500000001,440.472" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="Node6" data-to="CheckE" data-style="solid" data-arrow-start="false" data-arrow-end="true" points="349.3112500000001,494.272 349.3112500000001,533.012" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CheckE" data-to="Node5" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="局部細節微調" points="349.3112500000001,763.4639999999999 349.3112500000001,1266.6959999999997 366.9290000000001,1266.6959999999997 366.9290000000001,1407.8959999999997 282.58170000000007,1407.8959999999997 282.58170000000007,1431.8959999999997" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CheckE" data-to="Node4" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="架構層級重構" points="406.92425000000014,705.8509999999999 406.92425000000014,799.4639999999999 468.7857500000001,799.4639999999999 468.7857500000001,867.7639999999999 504.5402500000001,867.7639999999999 504.5402500000001,879.7639999999999" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<polyline class="edge" data-from="CheckE" data-to="End" data-style="solid" data-arrow-start="false" data-arrow-end="true" data-label="驗收通過" points="291.69825000000014,705.851 291.69825000000014,1198.3959999999997 274.08050000000003,1198.3959999999997 274.08050000000003,1278.6959999999997" fill="none" stroke="var(--_line)" stroke-width="1" marker-end="url(#arrowhead)" />
+<g class="edge-label" data-from="CheckA" data-to="Node2" data-label="未通過 (邏輯跳躍/過於冗長)">
+  <rect x="1039.4882499999999" y="376.432" width="159.02200000000002" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="1118.9992499999998" y="391.582" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">未通過 (邏輯跳躍/過於冗長)</text>
+</g>
+<g class="edge-label" data-from="CheckA" data-to="Node3" data-label="通過自檢">
+  <rect x="887.04275" y="274.632" width="65.17" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="919.62775" y="289.782" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">通過自檢</text>
+</g>
+<g class="edge-label" data-from="CheckB" data-to="Node2" data-label="駁回 / 要求修改 (帶回使用者意見)">
+  <rect x="891.3777499999999" y="730.594" width="186.346" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="984.5507499999999" y="745.744" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">駁回 / 要求修改 (帶回使用者意見)</text>
+</g>
+<g class="edge-label" data-from="CheckB" data-to="Node4" data-label="核准通過">
+  <rect x="822.20775" y="742.594" width="65.17" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="854.7927500000001" y="757.744" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">核准通過</text>
+</g>
+<g class="edge-label" data-from="CheckC" data-to="Node4" data-label="未通過 (字數過載/缺乏視覺焦點)">
+  <rect x="527.3243333333335" y="976.5639999999999" width="182.782" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="618.7153333333334" y="991.7139999999998" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">未通過 (字數過載/缺乏視覺焦點)</text>
+</g>
+<g class="edge-label" data-from="CheckC" data-to="Node5" data-label="通過檢核">
+  <rect x="535.613" y="1382.5959999999998" width="65.17" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="568.1980000000001" y="1397.7459999999999" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">通過檢核</text>
+</g>
+<g class="edge-label" data-from="CheckD" data-to="Node5" data-label="渲染錯誤 / Mermaid 報錯">
+  <rect x="36" y="1358.5959999999998" width="138.23200000000003" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="105.11600000000001" y="1373.7459999999999" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">渲染錯誤 / Mermaid 報錯</text>
+</g>
+<g class="edge-label" data-from="CheckD" data-to="Node4" data-label="結構損毀 / 邏輯丟失 (回退較大範圍)">
+  <rect x="452.45475000000005" y="459.712" width="198.22600000000003" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="551.56775" y="474.86199999999997" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">結構損毀 / 邏輯丟失 (回退較大範圍)</text>
+</g>
+<g class="edge-label" data-from="CheckD" data-to="Node6" data-label="通過技術自檢">
+  <rect x="304.8112500000001" y="357.912" width="88.93" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="349.2762500000001" y="373.06199999999995" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">通過技術自檢</text>
+</g>
+<g class="edge-label" data-from="CheckE" data-to="Node5" data-label="局部細節微調">
+  <rect x="322.4290000000001" y="1358.5959999999998" width="88.93" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="366.8940000000001" y="1373.7459999999999" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">局部細節微調</text>
+</g>
+<g class="edge-label" data-from="CheckE" data-to="Node4" data-label="架構層級重構">
+  <rect x="424.2857500000001" y="806.4639999999999" width="88.93" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="468.75075000000015" y="821.6139999999999" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">架構層級重構</text>
+</g>
+<g class="edge-label" data-from="CheckE" data-to="End" data-label="驗收通過">
+  <rect x="241.0805" y="1205.3959999999997" width="65.17" height="30.3" rx="2" ry="2" fill="var(--bg)" stroke="var(--_inner-stroke)" stroke-width="1" />
+  <text x="273.6655" y="1220.5459999999998" text-anchor="middle" font-size="11" font-weight="400" fill="var(--_text-sec)" dy="3.8499999999999996">驗收通過</text>
+</g>
+<g class="node" data-id="Start" data-label="開始: 輸入主題與風格規範" data-shape="stadium">
+  <rect x="562.9547500000001" y="629.194" width="210.15699999999995" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="668.0332500000001" y="647.644" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">開始: 輸入主題與風格規範</text>
+</g>
+<g class="node" data-id="Node1" data-label="1. 素材萃取與目標分析
+Extract &amp; Analyze Node" data-shape="rectangle">
+  <rect x="576.2927500000001" y="714.094" width="183.481" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="668.0332500000001" y="740.994" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="668.0332500000001" dy="-3.9000000000000012">1. 素材萃取與目標分析</tspan><tspan x="668.0332500000001" dy="16.900000000000002">Extract &amp; Analyze Node</tspan></text>
+</g>
+<g class="node" data-id="Node2" data-label="2. 大綱起草規劃
+Draft Outline Node" data-shape="rectangle">
+  <rect x="979.5486666666667" y="803.894" width="145.69" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1052.3936666666666" y="830.794" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="1052.3936666666666" dy="-3.9000000000000012">2. 大綱起草規劃</tspan><tspan x="1052.3936666666666" dy="16.900000000000002">Draft Outline Node</tspan></text>
+</g>
+<g class="node" data-id="CheckA" data-label="檢查點 A: 大綱品質自檢
+Auto-Validate Outline" data-shape="diamond">
+  <polygon points="1108.59125,40.00000000000004 1216.40725,147.81600000000003 1108.59125,255.632 1000.7752499999999,147.81600000000003" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="1108.59125" y="147.81600000000003" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="1108.59125" dy="-3.9000000000000012">檢查點 A: 大綱品質自檢</tspan><tspan x="1108.59125" dy="16.900000000000002">Auto-Validate Outline</tspan></text>
+</g>
+<g class="node" data-id="Node3" data-label="3. 人類大綱審批斷點
+Human Outline Gate - HITL" data-shape="rectangle">
+  <rect x="824.59725" y="347.932" width="190.89099999999996" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="920.0427500000001" y="374.832" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="920.0427500000001" dy="-3.9000000000000012">3. 人類大綱審批斷點</tspan><tspan x="920.0427500000001" dy="16.900000000000002">Human Outline Gate - HITL</tspan></text>
+</g>
+<g class="node" data-id="CheckB" data-label="檢查點 B: 使用者是否核准?" data-shape="diamond">
+  <polygon points="920.0427500000001,440.47200000000004 1038.97375,559.403 920.0427500000001,678.3340000000001 801.11175,559.403" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="920.0427500000001" y="559.403" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">檢查點 B: 使用者是否核准?</text>
+</g>
+<g class="node" data-id="Node4" data-label="4. 逐頁內容架構設計
+Slide Specs Design Node" data-shape="rectangle">
+  <rect x="457.1880000000001" y="879.7639999999999" width="189.409" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="551.8925000000002" y="906.6639999999999" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="551.8925000000002" dy="-3.9000000000000012">4. 逐頁內容架構設計</tspan><tspan x="551.8925000000002" dy="16.900000000000002">Slide Specs Design Node</tspan></text>
+</g>
+<g class="node" data-id="CheckC" data-label="檢查點 C: 資訊密度與日系留白檢核
+Density &amp; Aesthetics Gate" data-shape="diamond">
+  <polygon points="568.613,1049.8639999999998 713.479,1194.7299999999998 568.613,1339.5959999999998 423.74700000000007,1194.7299999999998" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="568.613" y="1194.7299999999998" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="568.613" dy="-3.9000000000000012">檢查點 C: 資訊密度與日系留白檢核</tspan><tspan x="568.613" dy="16.900000000000002">Density &amp; Aesthetics Gate</tspan></text>
+</g>
+<g class="node" data-id="Node5" data-label="5. 程式碼與圖表渲染
+Code &amp; Diagram Render Node" data-shape="rectangle">
+  <rect x="154.2645000000001" y="1431.8959999999997" width="213.86199999999997" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="261.1955000000001" y="1458.7959999999998" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="261.1955000000001" dy="-3.9000000000000012">5. 程式碼與圖表渲染</tspan><tspan x="261.1955000000001" dy="16.900000000000002">Code &amp; Diagram Render Node</tspan></text>
+</g>
+<g class="node" data-id="CheckD" data-label="檢查點 D: 語法、排版與渲染自檢
+Syntax &amp; Render Gate" data-shape="diamond">
+  <polygon points="273.58050000000003,40 411.03650000000005,177.456 273.58050000000003,314.912 136.12450000000004,177.456" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="273.58050000000003" y="177.456" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="273.58050000000003" dy="-3.9000000000000012">檢查點 D: 語法、排版與渲染自檢</tspan><tspan x="273.58050000000003" dy="16.900000000000002">Syntax &amp; Render Gate</tspan></text>
+</g>
+<g class="node" data-id="Node6" data-label="6. 終審預覽與交付
+Final Review Node" data-shape="rectangle">
+  <rect x="270.1677500000001" y="440.472" width="158.28699999999998" height="53.800000000000004" rx="0" ry="0" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="349.3112500000001" y="467.37199999999996" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)"><tspan x="349.3112500000001" dy="-3.9000000000000012">6. 終審預覽與交付</tspan><tspan x="349.3112500000001" dy="16.900000000000002">Final Review Node</tspan></text>
+</g>
+<g class="node" data-id="CheckE" data-label="檢查點 E: 使用者終審驗收" data-shape="diamond">
+  <polygon points="349.3112500000001,533.012 464.5372500000001,648.2379999999999 349.3112500000001,763.4639999999999 234.0852500000001,648.2379999999999" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="349.3112500000001" y="648.2379999999999" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">檢查點 E: 使用者終審驗收</text>
+</g>
+<g class="node" data-id="End" data-label="完成: 交付日式簡報" data-shape="stadium">
+  <rect x="191.23200000000006" y="1278.6959999999997" width="165.697" height="36.900000000000006" rx="18.450000000000003" ry="18.450000000000003" fill="var(--_node-fill)" stroke="var(--_node-stroke)" stroke-width="0.75" />
+  <text x="274.08050000000003" y="1297.1459999999997" text-anchor="middle" font-size="13" font-weight="500" fill="var(--_text)" dy="4.55">完成: 交付日式簡報</text>
+</g>
+</svg>
