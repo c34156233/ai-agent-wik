@@ -57,3 +57,12 @@ Chronological, append-only record of all ingestions, syntheses, queries, and mai
 - **說明**: 根據使用者釐清之需求，全面重構《AI AGENT 在現實的應用》HTML 投影片為「靜謐水墨禪意風」。融合了淡雅和紙灰階底色、竹青與灰藍水彩質感圖示、雜誌刊物編排感（強調「間 / Ma」留白）、襯線標題與純中文排版細節，並完整保留 Mermaid 架構圖與講稿抽屜功能。
 - **影響檔案**:
   - `[[presentations/ai-agent-real-world-applications.html]]` (重構視覺設計與排版節奏)
+
+---
+
+## [2026-11-24] workflow | Graph-based Slide Deck Generation Completed
+- **說明**: 透過嚴格的 Graph 狀態流轉（素材分析 $\to$ 大綱自檢 $\to$ 人類大綱審批 HITL $\to$ 逐頁規格設計 $\to$ 人類內容審批 HITL $\to$ 代碼渲染 $\to$ 語法與美學自檢），成功交付最終版 11 頁日式禪意水墨風格《智慧代理在現實的應用》互動簡報。
+- **影響檔案**:
+  - `[[presentations/ai-agent-real-world-applications.html]]` (最終渲染並通過 Checkpoint D 自檢)
+  - `[[push.ps1]]` (已建立一鍵 Git 推送腳本)
+  - `[[.gitignore]]` (已配置版本忽略清單)

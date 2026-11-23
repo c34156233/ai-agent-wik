@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AI AGENT 在現實的應用 — 產業落地與架構全景</title>
+  <title>智慧代理在現實的應用 — 產業落地與架構全景</title>
   <!-- Mermaid.js for Diagrams -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <style>
@@ -23,7 +23,7 @@
       --wash-indigo-light: rgba(72, 101, 129, 0.12);
       --wash-ochre: #9c754d;
       --wash-ochre-light: rgba(156, 117, 77, 0.1);
-      --paper-card: rgba(255, 255, 255, 0.85);
+      --paper-card: rgba(255, 255, 255, 0.88);
       --paper-border: rgba(38, 41, 43, 0.08);
 
       /* 字體排印：襯線標題 + 純淨無襯線內文 */
@@ -54,24 +54,24 @@
       pointer-events: none;
       z-index: 1;
       border-radius: 50%;
-      filter: blur(60px);
+      filter: blur(65px);
       opacity: 0.45;
     }
 
     .wash-1 {
-      width: 480px;
-      height: 480px;
+      width: 520px;
+      height: 520px;
       background: radial-gradient(circle, #dcebe6 0%, rgba(220, 235, 230, 0) 70%);
-      top: -100px;
-      right: -80px;
+      top: -120px;
+      right: -100px;
     }
 
     .wash-2 {
-      width: 520px;
-      height: 520px;
+      width: 560px;
+      height: 560px;
       background: radial-gradient(circle, #e2eaf1 0%, rgba(226, 234, 241, 0) 70%);
-      bottom: -150px;
-      left: -120px;
+      bottom: -160px;
+      left: -140px;
     }
 
     /* 頂部極細進度條 */
@@ -137,7 +137,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      padding: 24px 80px 80px 80px;
+      padding: 20px 80px 76px 80px;
       opacity: 0;
       pointer-events: none;
       transform: translateY(12px);
@@ -155,7 +155,7 @@
 
     /* 雜誌編排感排印 (Typography) */
     .slide-header {
-      margin-bottom: 32px;
+      margin-bottom: 28px;
       position: relative;
     }
 
@@ -181,7 +181,7 @@
 
     h1.slide-title {
       font-family: var(--font-serif);
-      font-size: 2.25rem;
+      font-size: 2.2rem;
       font-weight: 600;
       letter-spacing: 0.06em;
       color: var(--ink-black);
@@ -201,7 +201,7 @@
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 36px;
+      gap: 32px;
       flex: 1;
       align-items: stretch;
     }
@@ -209,16 +209,24 @@
     .grid-3 {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
+      gap: 24px;
       flex: 1;
       align-items: stretch;
+    }
+
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 20px;
+      flex: 1;
     }
 
     .zen-card {
       background: var(--paper-card);
       border: 1px solid var(--paper-border);
       border-radius: 18px;
-      padding: 32px 28px;
+      padding: 28px 24px;
       display: flex;
       flex-direction: column;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
@@ -236,19 +244,19 @@
 
     /* 水彩質感圖標容器 */
     .watercolor-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       position: relative;
     }
 
     .watercolor-icon svg {
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       position: relative;
       z-index: 2;
     }
@@ -278,7 +286,7 @@
 
     .card-title {
       font-family: var(--font-serif);
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 600;
       color: var(--ink-black);
       letter-spacing: 0.04em;
@@ -287,7 +295,7 @@
 
     .card-desc {
       color: var(--ink-charcoal);
-      font-size: 0.95rem;
+      font-size: 0.92rem;
       line-height: 1.85;
       letter-spacing: 0.03em;
       flex: 1;
@@ -299,7 +307,7 @@
     }
 
     .card-list {
-      margin-top: 14px;
+      margin-top: 12px;
       padding-left: 0;
       list-style: none;
     }
@@ -330,7 +338,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 18px;
+      margin-top: 16px;
     }
 
     .zen-tag {
@@ -356,14 +364,14 @@
     }
 
     table.zen-table th, table.zen-table td {
-      padding: 16px 20px;
+      padding: 14px 18px;
       text-align: left;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       letter-spacing: 0.03em;
     }
 
     table.zen-table th {
-      background: rgba(244, 242, 236, 0.8);
+      background: rgba(244, 242, 236, 0.85);
       color: var(--ink-black);
       font-family: var(--font-serif);
       font-weight: 600;
@@ -385,12 +393,12 @@
       background: var(--paper-card);
       border: 1px solid var(--paper-border);
       border-radius: 18px;
-      padding: 24px;
+      padding: 22px;
       display: flex;
       justify-content: center;
       align-items: center;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-      min-height: 220px;
+      min-height: 200px;
     }
 
     /* 封面特仕頁 (Cover Slide) */
@@ -459,7 +467,7 @@
       right: 48px;
       width: 440px;
       max-height: 280px;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.96);
       border: 1px solid rgba(74, 119, 106, 0.25);
       border-radius: 16px;
       padding: 22px;
@@ -484,7 +492,7 @@
       align-items: center;
     }
 
-    /* 底部控制欄 */
+    /* 底部極簡控制欄 */
     footer.controls {
       padding: 18px 64px;
       display: flex;
@@ -575,7 +583,7 @@
   <main id="deck">
 
     <!-- Slide 1: 封面 -->
-    <section class="slide slide-lead active" data-notes="各位好。今天這份簡報將帶領大家回歸最真實的實踐視角，深入探討『智慧代理在現實世界的落地應用』。我們將跳脫繁複的理論堆疊，以洗鍊清晰的視角，剖析它如何在程式開發、跨系統流程、深層研究以及組織協同中，重塑人機協作的新常態。">
+    <section class="slide slide-lead active" data-notes="各位好。今天這份簡報將帶大家跳脫理論模型與純文字生成的局限，聚焦於各大科技巨頭與企業如何將 Agent 化為真實的生產力。我們將從軟體開發、跨系統流程、深層情報研究到組織協同，進行全景式的落地解析。">
       <div class="cover-motif">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <circle cx="12" cy="12" r="10"></circle>
@@ -593,7 +601,7 @@
     </section>
 
     <!-- Slide 2: 演進光譜 -->
-    <section class="slide" data-notes="首先綜覽人工智慧與人協作的演進軌跡。從對話機器人的單向問答，到副駕駛的行內協同，直到今日的自主代理。核心的轉變在於：人類從必須步步引導的執行者，轉變為定義目標與審核成果的引導者。">
+    <section class="slide" data-notes="人機協作經歷了三個階段：從最初單向問答的 Chatbot，到工作介面內輔助人類的 Copilot，再到今天能夠接收目標、自主規劃並自我修正的 Agent。核心的轉變在於：人類從必須步步引導的執行者，轉變為定義目標與審核成果的引導者。">
       <div class="slide-header">
         <div class="slide-category">典範轉移</div>
         <h1 class="slide-title">人機協作演進：從單向應答到自主閉環</h1>
@@ -610,7 +618,7 @@
             <strong>文字生成與被動應答</strong>
             <ul class="card-list">
               <li>單次輸入提示詞生成文字片段</li>
-              <li>無法直接碰觸外部資料庫或操作軟體</li>
+              <li>無法直接碰觸外部資料庫或操作軟體系統</li>
               <li>人類承擔全數的執行與驗證責任</li>
             </ul>
           </div>
@@ -630,7 +638,7 @@
             <strong>工作介面內的輔助夥伴</strong>
             <ul class="card-list">
               <li>嵌入編輯器或辦公軟體提供局部建議</li>
-              <li>加速程式碼編寫與草稿擬定</li>
+              <li>大幅加速程式碼補全與草稿擬定</li>
               <li>仍需人類頻繁手動介入與分步確認</li>
             </ul>
           </div>
@@ -663,7 +671,7 @@
     </section>
 
     <!-- Slide 3: 軟體工程實踐 -->
-    <section class="slide" data-notes="在軟體工程中，代理的應用已走向成熟。過去只能幫忙寫一個演算法，現在具備完整沙盒環境的編程代理，能夠自動檢索大型代碼庫、重現複雜的 Bug，在測試驗證下逐步修復，並產生乾淨的 Git 補丁提交審查。">
+    <section class="slide" data-notes="以前只能叫 LLM 寫一個函數；現在像 Cursor Agent、Devin 等編程代理，能在真實 Repo 裡定位 Bug、在沙盒中執行單元測試，若報錯則自我修復直到 Pass，最後自動開 Pull Request 提交審查。">
       <div class="slide-header">
         <div class="slide-category">實踐領域一</div>
         <h1 class="slide-title">軟體工程：自主探索與程式修復閉環</h1>
@@ -705,7 +713,7 @@
     </section>
 
     <!-- Slide 4: 企業流程自動化 -->
-    <section class="slide" data-notes="企業內部存在大量跨越 ERP、CRM、郵件與試算表的枯燥流程。傳統自動化工具極易因為介面改版而失效；而融入語義推理的代理，能靈活理解業務語意，真正像一位數位員工一樣協同處理採購、入職與商機更新。">
+    <section class="slide" data-notes="傳統 RPA 網頁按鈕改版就死掉；Agent 具有語義推理能力，能理解模糊指令，跨越 ERP、CRM、郵件與試算表，自主完成帳務比對、新人開通與合約草擬。">
       <div class="slide-header">
         <div class="slide-category">實踐領域二</div>
         <h1 class="slide-title">企業流程自動化：跨系統的「數位員工」</h1>
@@ -760,7 +768,7 @@
     </section>
 
     <!-- Slide 5: 深度研究與情報合成 -->
-    <section class="slide" data-notes="研究分析的核心在於多跳探索與事實交叉檢驗。一般檢索往往止步於單次關鍵字查詢；而深度研究代理能自動分解命題、過濾噪音，並將新發現融會進持續演進的知識庫中，讓每次的研究都不再重頭來過。">
+    <section class="slide" data-notes="一般檢索止步於單次搜尋；研究 Agent 會像分析師一樣層層追查，比對矛盾，並把成果沉澱為雙向連結的知識庫（LLM Wiki），讓每次的研究都不再重頭來過。">
       <div class="slide-header">
         <div class="slide-category">實踐領域三</div>
         <h1 class="slide-title">深度情報分析：多跳檢索與知識複利</h1>
@@ -802,7 +810,7 @@
     </section>
 
     <!-- Slide 6: 客戶支援與動態服務 -->
-    <section class="slide" data-notes="客戶服務最怕機器人只會說抱歉或給連結。代理驅動的客服，核心特質在於具備授權工具的調用能力——它能直接查詢帳戶狀態、處理合規範圍內的退款或改單，真正替顧客省下寶貴時間。">
+    <section class="slide" data-notes="顧客要的是把問題解決，而不是看 FAQ。現代客服 Agent 的價值在於具備行動權限——它能直接查詢訂單狀態、合規辦理退款或改址，真正替顧客省下寶貴時間。">
       <div class="slide-header">
         <div class="slide-category">實踐領域四</div>
         <h1 class="slide-title">客戶支援變革：從罐頭說明到「即時解決」</h1>
@@ -839,7 +847,7 @@
     </section>
 
     <!-- Slide 7: 垂直高價值領域 (金融/法律/醫療) -->
-    <section class="slide" data-notes="在金融、法律與生醫醫療這類專業門檻極高的領域，代理並非為了取代資深專家，而是充當一位 24 小時專注的分析副手。它能幫律師預先標註 500 頁合約的潛在風險，幫醫師比對罕見病歷與最新臨床試驗，讓專業人才聚焦於最關鍵的判斷。">
+    <section class="slide" data-notes="在金融、法律與生醫醫療這類專業門檻極高的領域，Agent 是 24 小時不倦怠的初階分析師，幫專家扛下前 80% 的繁瑣查驗，讓專家專注於最核心的決策判斷。">
       <div class="slide-header">
         <div class="slide-category">實踐領域五</div>
         <h1 class="slide-title">專業垂直領域：金融、法律與醫療的智慧外腦</h1>
@@ -891,7 +899,7 @@
     </section>
 
     <!-- Slide 8: 組織級多 Agent 團隊協同 -->
-    <section class="slide" data-notes="當專案複雜度上升，單一代理往往難以負荷。業界目前的主流架構是多代理人分工協同。如同一個微型的敏捷軟體團隊，各自承擔需求、架構、編程與測試職責，彼此透過規範的訊息機制交接與審查。">
+    <section class="slide" data-notes="任務變大時單一 Agent 會崩潰。多 Agent 模擬人類軟體團隊（PM、架構師、研發、QA），各自專注於專屬職責，透過規範的訊息機制交接與客觀審查，成功率最高。">
       <div class="slide-header">
         <div class="slide-category">前沿架構</div>
         <h1 class="slide-title">組織級多代理協同：虛擬團隊的職責解耦</h1>
@@ -908,7 +916,7 @@ flowchart LR
     QA -- 全數通過 --> Release([交付成果])
         </pre>
       </div>
-      <div class="grid-2" style="margin-top: 24px;">
+      <div class="grid-2" style="margin-top: 20px;">
         <div class="zen-card">
           <div class="card-title">架構核心效益</div>
           <div class="card-desc">
@@ -931,7 +939,7 @@ flowchart LR
     </section>
 
     <!-- Slide 9: 工業級安全落地架構 -->
-    <section class="slide" data-notes="企業要敢於將代理引入生產環境，最關鍵的不是模型多聰明，而是安全護欄是否嚴密。我們必須落實最小權限、環境沙盒隔離，並在關鍵節點保留人類審批的閘門。">
+    <section class="slide" data-notes="企業真正關心的是『失控怎麼辦？』。落實最小權限、容器沙盒隔離，並在關鍵操作保留 Human-in-the-Loop 人類審批閘門，是把 Agent 安全引進生產環境的必備前提。">
       <div class="slide-header">
         <div class="slide-category">安全與治理</div>
         <h1 class="slide-title">生產級安全防護：護欄、沙盒與人機審批</h1>
@@ -977,34 +985,26 @@ flowchart LR
     </section>
 
     <!-- Slide 10: 現實落地的四大工程挑戰 -->
-    <section class="slide" data-notes="從 Demo 走向真實商業落地，團隊必然會遭遇四大工程瓶頸：死循環、上下文爆發、延遲成本與評測方法。清楚理解這些挑戰並落實對應解法，是專案成功的基石。">
+    <section class="slide" data-notes="生產級開發有 80% 的時間在克服這四個問題：死循環、上下文爆發、延遲與成本、評測脫節。掌握這些對策，專案才能跨越從 Demo 到落地的鴻溝。">
       <div class="slide-header">
         <div class="slide-category">實務工程學</div>
         <h1 class="slide-title">邁向生產級的四大挑戰與破局實務</h1>
         <p class="slide-subtitle">跨越概念驗證與工業級可用之間的實務鴻溝</p>
       </div>
-      <div class="grid-2">
+      <div class="grid-4">
         <div class="zen-card">
           <div class="card-title">死循環與盲目重試</div>
           <div class="card-desc">
-            <strong>現象</strong>：工具持續回傳錯誤碼，模型以相同參數反覆請求。<br>
-            <strong>對策</strong>：
-            <ul class="card-list">
-              <li>導入強制反思節點，要求模型條列前次失敗原因方可再嘗試。</li>
-              <li>結合指數退避機制，超出預設上限立即暫停並通知人工接手。</li>
-            </ul>
+            <strong>現象</strong>：工具持續回報錯誤碼，模型以相同參數反覆請求。<br>
+            <strong>對策</strong>：導入帶記憶之反思節點，超限時觸發退避機制並通知人工接手。
           </div>
         </div>
 
         <div class="zen-card">
-          <div class="card-title">上下文膨脹與注意力發散</div>
+          <div class="card-title">上下文膨脹與焦點遺失</div>
           <div class="card-desc">
-            <strong>現象</strong>：大量除錯日誌或網頁內容瞬間填滿視窗，造成焦點遺失。<br>
-            <strong>對策</strong>：
-            <ul class="card-list">
-              <li>實施分頁截斷讀取，避免單次傾倒巨量原始資料。</li>
-              <li>指派輕量模型預先過濾精煉輸出，僅將核心洞察餵回主決策模組。</li>
-            </ul>
+            <strong>現象</strong>：大量日誌或網頁內容瞬間填滿視窗，造成焦點遺失。<br>
+            <strong>對策</strong>：實施分頁截斷讀取，並指派輕量模型預先過濾精煉輸出。
           </div>
         </div>
 
@@ -1012,11 +1012,7 @@ flowchart LR
           <div class="card-title">端到端延遲與運算成本</div>
           <div class="card-desc">
             <strong>現象</strong>：多輪複雜呼叫累積過長等待時間與高昂費用。<br>
-            <strong>對策</strong>：
-            <ul class="card-list">
-              <li>落實模型動態分流：日常步驟採用輕快模型，關鍵驗證才動用旗艦核心。</li>
-              <li>廣泛啟用快取技術，避免重複計算已驗證的事實。</li>
-            </ul>
+            <strong>對策</strong>：模型動態分流（小模型負責日常路由，旗艦模型專注最終驗證）並啟用快取。
           </div>
         </div>
 
@@ -1024,18 +1020,14 @@ flowchart LR
           <div class="card-title">評測方法與真實環境脫節</div>
           <div class="card-desc">
             <strong>現象</strong>：標準考題表現優異，進入實務終端卻無法完成基本操作。<br>
-            <strong>對策</strong>：
-            <ul class="card-list">
-              <li>捨棄靜態問答評判，建立動態端到端沙盒測試流程。</li>
-              <li>以真實任務達成率與單元測試通過率作為唯一的交付驗收依據。</li>
-            </ul>
+            <strong>對策</strong>：捨棄靜態問答評判，改以真實環境任務達成率與測試通過率作為交付依據。
           </div>
         </div>
       </div>
     </section>
 
     <!-- Slide 11: 結語與展望 -->
-    <section class="slide slide-lead" data-notes="最後總結：智慧代理的興起，並不是要取代人類的判斷，而是讓我們從重複繁重的機械作業中解放出來。先以嚴謹的工作流界定邊界，再在需要彈性的地方賦予自主修正能力，人機協作便能走得既深遠又穩固。非常感謝大家。">
+    <section class="slide slide-lead" data-notes="智慧代理不是要取代人類，而是讓我們從重複繁重的機械作業中解放出來。先以嚴謹的工作流界定邊界，再在需要彈性的地方賦予自主修正能力，人機協作便能走得既深遠又穩固。非常感謝大家。">
       <div class="cover-motif">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
